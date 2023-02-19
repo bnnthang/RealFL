@@ -26,4 +26,7 @@ public class AppArgs {
 
     @Parameter(names = "--ml")
     public Boolean ml = false;
+
+    @Parameter(names = "--help", help = true)
+    public Boolean help = false;
 }

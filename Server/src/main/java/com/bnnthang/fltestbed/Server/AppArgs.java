@@ -35,4 +35,7 @@ public class AppArgs {
 
     @Parameter(names = "--model")
     public Boolean model = false;
+
+    @Parameter(names = "--help", help = true)
+    public Boolean help = false;
 }
