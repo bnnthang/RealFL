@@ -73,7 +73,7 @@ public class BaseClientOperations implements IClientOperations {
         trainingStat.newRound();
 
         // send model existence information
-        SocketUtils.clientTrackedSendInteger(socket, hasLocalModel() ? 1 : 0, uploadStat);
+        SocketUtils.clientTrackedSendInteger(socket, 0, uploadStat);
     }
 
     @Override
