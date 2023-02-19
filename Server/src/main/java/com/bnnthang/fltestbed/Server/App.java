@@ -26,9 +26,12 @@ public class App {
 
     public static void main(String[] args) throws Exception {
         AppArgs appArgs = new AppArgs();
-        JCommander.newBuilder().addObject(appArgs).build().parse(args);
+        JCommander jcmd = JCommander.newBuilder().addObject(appArgs).build();
+        jcmd.parse(args);
 
-        if (appArgs.fl) {
+        if (appArgs.help) {
+            jcmd.usage();
+        } else if (appArgs.fl) {
             fl(appArgs);
         } else if (appArgs.ml) {
             ml(appArgs);
