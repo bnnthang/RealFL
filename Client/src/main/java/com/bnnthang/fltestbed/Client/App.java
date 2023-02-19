@@ -31,11 +31,6 @@ public class App {
         }
     }
 
-    private static void help() {
-        // TODO: list arguments documentation
-        System.out.println("help");
-    }
-
     private static void ml(AppArgs appArgs) throws IOException {
         ML.cifar10TrainAndEval(appArgs.workDir);
     }

@@ -25,6 +25,8 @@ public class App {
     private static final Logger _logger = LoggerFactory.getLogger(App.class);
 
     public static void main(String[] args) throws Exception {
+        System.load("/Users/thang/.javacpp/cache/Server-1.2-SNAPSHOT.jar/org/nd4j/linalg/cpu/nativecpu/bindings/macosx-arm64/libjnind4jcpu.dylib");
+
         AppArgs appArgs = new AppArgs();
         JCommander.newBuilder().addObject(appArgs).build().parse(args);
 
@@ -42,11 +44,6 @@ public class App {
         } else {
             _logger.info("no training model specified.");
         }
-    }
-
-    private static void help() {
-        // TODO: print arguments documentation
-        System.out.println("help");
     }
 
     private static void ml(AppArgs args) throws IOException {
