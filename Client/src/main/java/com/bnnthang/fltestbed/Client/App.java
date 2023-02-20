@@ -62,7 +62,7 @@ public class App {
                 pathToDataset = clientDir + "/cifar10Dataset";
             }
 
-                IClientLocalRepository localRepository;
+            IClientLocalRepository localRepository;
             if (useHealthDataset) {
                 localRepository = new ChestXrayRepository(pathToModel, pathToDataset);
             } else {

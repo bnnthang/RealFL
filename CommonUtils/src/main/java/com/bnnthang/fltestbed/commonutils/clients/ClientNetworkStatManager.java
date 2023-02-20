@@ -37,7 +37,7 @@ public class ClientNetworkStatManager implements IClientNetworkStatManager {
 
     @Override
     public void newRound() {
-        currentRound = 0;
+        ++currentRound;
         bytesSentByRound.add(0L);
         timeElapsedByRound.add(0.0);
     }
