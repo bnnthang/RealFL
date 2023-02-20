@@ -16,7 +16,7 @@ public class BaseClient extends Thread {
     /**
      * Logger.
      */
-    private static final Logger _logger = LoggerFactory.getLogger(BaseClient.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(BaseClient.class);
 
     /**
      * Delay interval (in milliseconds).
@@ -52,7 +52,7 @@ public class BaseClient extends Thread {
         try {
             serve();
         } catch (Exception e) {
-            _logger.error(e.getMessage());
+            LOGGER.error(e.getMessage());
             operations.terminate();
             this.interrupt();
         }
@@ -75,7 +75,7 @@ public class BaseClient extends Thread {
 
             if (bytesRead < 0) {
                 operations.terminate();
-                _logger.error("Negative number of bytes read.");
+                LOGGER.error("Negative number of bytes read.");
                 break;
             } else if (bytesRead == 0) {
                 sleep(delayInterval);

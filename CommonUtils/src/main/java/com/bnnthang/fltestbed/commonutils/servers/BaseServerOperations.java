@@ -1,7 +1,5 @@
 package com.bnnthang.fltestbed.commonutils.servers;
 
-import com.bnnthang.fltestbed.commonutils.clients.IClientNetworkStatManager;
-import com.bnnthang.fltestbed.commonutils.clients.IClientTrainingStatManager;
 import com.bnnthang.fltestbed.commonutils.models.ModelUpdate;
 import com.bnnthang.fltestbed.commonutils.models.ServerParameters;
 import com.opencsv.CSVWriter;
@@ -77,11 +75,14 @@ public class BaseServerOperations implements IServerOperations {
 
     @Override
     public void pushModelToClients(List<IClientHandler> clients) throws IOException {
-        // TODO: not to load model to memory
-        byte[] modelBytes = localRepository.loadAndSerializeLatestModel();
-        byte[] weightBytes = localRepository.loadAndSerializeLatestModelWeights();
         for (IClientHandler client : clients) {
-            client.pushModel(client.hasLocalModel() ? weightBytes : modelBytes);
+            if (client.hasLocalModel()) {
+                byte[] weightBytes = localRepository.loadAndSerializeLatestModelWeights();
+                client.pushModel(weightBytes);
+            } else {
+                byte[] modelBytes = localRepository.loadAndSerializeLatestModel();
+                client.pushModel(modelBytes);
+            }
         }
 
         _logger.debug("pushed model to all clients");

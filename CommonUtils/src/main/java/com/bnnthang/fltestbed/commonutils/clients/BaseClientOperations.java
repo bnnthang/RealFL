@@ -19,7 +19,7 @@ public class BaseClientOperations implements IClientOperations {
     /**
      * Batch size as a parameter.
      */
-    protected int batchSize;
+    protected Integer batchSize;
 
     /**
      * Epochs to train.
