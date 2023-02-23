@@ -11,16 +11,16 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class NewCifar10DSIterator implements DataSetIterator {
+public class Cifar10DSIterator implements DataSetIterator {
     private final IDatasetLoader _loader;
 
     private int currentIndex = 0;
 
     private final int _batchSize;
 
-    private Logger _logger = LoggerFactory.getLogger(NewCifar10DSIterator.class.getName());
+    private Logger _logger = LoggerFactory.getLogger(Cifar10DSIterator.class.getName());
 
-    public NewCifar10DSIterator(IDatasetLoader loader, int batchSize) {
+    public Cifar10DSIterator(IDatasetLoader loader, int batchSize) {
         _loader = loader;
         _batchSize = batchSize;
         _logger.info("init new cifar dsiterator");

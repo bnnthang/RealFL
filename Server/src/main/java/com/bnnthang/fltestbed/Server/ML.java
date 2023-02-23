@@ -16,6 +16,7 @@ import org.nd4j.linalg.activations.Activation;
 import org.nd4j.linalg.dataset.api.iterator.DataSetIterator;
 import org.nd4j.linalg.learning.config.AdaDelta;
 import org.nd4j.linalg.learning.config.Adam;
+import org.nd4j.linalg.learning.config.Sgd;
 import org.nd4j.linalg.lossfunctions.LossFunctions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -32,7 +33,9 @@ public class ML {
     private static final Logger _logger = LoggerFactory.getLogger(ML.class);
 
     /**
-     * Adopted from <url>https://github.com/deeplearning4j/deeplearning4j-examples/blob/master/dl4j-examples/src/main/java/org/deeplearning4j/examples/quickstart/modeling/convolution/CIFARClassifier.java</url>.
+     * Adopted from
+     * <url>https://github.com/deeplearning4j/deeplearning4j-examples/blob/master/dl4j-examples/src/main/java/org/deeplearning4j/examples/quickstart/modeling/convolution/CIFARClassifier.java</url>.
+     * 
      * @return sample neural network for CIFAR-10 training.
      */
     public static MultiLayerNetwork getModelCifar10() {
@@ -215,6 +218,30 @@ public class ML {
                 true);
     }
 
+    public static MultiLayerNetwork getModelIris() {
+        MultiLayerConfiguration conf = new NeuralNetConfiguration.Builder()
+                .seed(6)
+                .activation(Activation.TANH)
+                .weightInit(WeightInit.XAVIER)
+                .updater(new Sgd(0.1))
+                .l2(1e-4)
+                .list()
+                .layer(new DenseLayer.Builder().nIn(4).nOut(3)
+                        .build())
+                .layer(new DenseLayer.Builder().nIn(3).nOut(3)
+                        .build())
+                .layer(new OutputLayer.Builder(LossFunctions.LossFunction.NEGATIVELOGLIKELIHOOD)
+                        .activation(Activation.SOFTMAX) // Override the global TANH activation with softmax for this
+                                                        // layer
+                        .nIn(3).nOut(3).build())
+                .build();
+
+        MultiLayerNetwork model = new MultiLayerNetwork(conf);
+        model.init();
+
+        return model;
+    }
+
     public static void getBaseCifar10Model(String path) throws IOException {
         File newModel = new File(path, "base_model.zip");
         MultiLayerNetwork model = getModelCifar10();
@@ -225,6 +252,13 @@ public class ML {
     public static void getBaseChestXrayModel(String path) throws IOException {
         File newModel = new File(path, "base_model.zip");
         MultiLayerNetwork model = getModelPneumonia();
+        model.save(newModel, true);
+        model.close();
+    }
+
+    public static void getBaseIrisModel(String path) throws IOException {
+        File newModel = new File(path, "base_model.zip");
+        MultiLayerNetwork model = getModelIris();
         model.save(newModel, true);
         model.close();
     }

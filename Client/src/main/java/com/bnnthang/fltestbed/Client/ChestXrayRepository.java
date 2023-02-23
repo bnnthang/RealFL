@@ -121,4 +121,9 @@ public class ChestXrayRepository implements IClientLocalRepository {
 
     @Override
     public String getDatasetName() { return "ChestXray"; }
+
+    @Override
+    public File getDatasetFile() throws IOException {
+        throw new UnsupportedOperationException("Unimplemented method 'getDatasetFile'");
+    }
 }

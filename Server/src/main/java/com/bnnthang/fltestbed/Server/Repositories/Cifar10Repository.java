@@ -19,8 +19,6 @@ import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import org.json.simple.*;
-
 public class Cifar10Repository implements IServerLocalRepository {
     private static final Logger _logger = LogManager.getLogger(Cifar10Repository.class);
 
@@ -245,6 +243,7 @@ public class Cifar10Repository implements IServerLocalRepository {
         byte[] bytes = new byte[modelLength];
         int readBytes = fis.read(bytes, 0, modelLength);
         if (readBytes != modelLength) {
+            fis.close();
             throw new IOException(String.format("read %d bytes; expected %d bytes", readBytes, modelLength));
         }
         fis.close();
@@ -257,14 +256,13 @@ public class Cifar10Repository implements IServerLocalRepository {
         INDArray params = model.params().dup();
         model.close();
         byte[] bytes = SerializationUtils.serialize(params);
+        // TODO: params.close() ?
         return bytes;
     }
 
     @Override
     public void saveNewModel(MultiLayerNetwork newModel) throws IOException {
-        String newModelName = "cifarmodel-" +
-                (new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss").format(Calendar.getInstance().getTime())) + ".zip";
-
+        String newModelName = "cifarmodel-" + (new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss").format(Calendar.getInstance().getTime())) + ".zip";
         newModel.save(new File(workingDirectory, newModelName));
         currentModelName = newModelName;
     }

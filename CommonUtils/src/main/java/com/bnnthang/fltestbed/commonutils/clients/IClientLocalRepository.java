@@ -18,6 +18,7 @@ public interface IClientLocalRepository {
     Boolean datasetExists();
     Long getDatasetSize() throws IOException;
     InputStream getDatasetInputStream() throws IOException;
+    File getDatasetFile() throws IOException;
     File getModelFile() throws IOException;
     String getModelPath();
     String getDatasetName();

@@ -51,7 +51,7 @@ public class Cifar10TrainingWorker extends Thread {
 
             // load dataset
             IDatasetLoader loader = new Cifar10DatasetLoader(localRepository);
-            DataSetIterator iterator = new NewCifar10DSIterator(loader, batchSize);
+            DataSetIterator iterator = new Cifar10DSIterator(loader, batchSize);
 
             model.setListeners(new MemoryListener());
 

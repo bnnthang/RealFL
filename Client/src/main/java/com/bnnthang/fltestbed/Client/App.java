@@ -53,24 +53,24 @@ public class App {
             // TODO: use the factory pattern
             String pathToModel;
             String pathToDataset;
+            IClientLocalRepository localRepository;
             Boolean useHealthDataset = appArgs.useHealthDataset;
-            if (useHealthDataset) {
+            if (appArgs.test) {
+                pathToModel = clientDir + "/irisModel.zip";
+                pathToDataset = clientDir + "/irisDataset";
+                localRepository = new IrisRepository(pathToModel, pathToDataset);
+            } else if (useHealthDataset) {
                 pathToModel = clientDir + "/xrayModel.zip";
                 pathToDataset = clientDir + "/xrayDataset";
+                localRepository = new ChestXrayRepository(pathToModel, pathToDataset);
             } else {
                 pathToModel = clientDir + "/cifar10Model.zip";
                 pathToDataset = clientDir + "/cifar10Dataset";
-            }
-
-            IClientLocalRepository localRepository;
-            if (useHealthDataset) {
-                localRepository = new ChestXrayRepository(pathToModel, pathToDataset);
-            } else {
                 localRepository = new Cifar10Repository(pathToModel, pathToDataset);
             }
 
             IClientOperations clientOperations = new BaseClientOperations(localRepository, appArgs.batchSize);
-            BaseClient client = new BaseClient(appArgs.host, appArgs.port, 5000, clientOperations);
+            BaseClient client = new BaseClient(appArgs.host, appArgs.port, 1000, clientOperations);
             client.start();
 
             _logger.debug("running " + i);

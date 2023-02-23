@@ -121,4 +121,9 @@ public class Cifar10Repository implements IClientLocalRepository {
 
     @Override
     public String getDatasetName() { return "Cifar10"; }
+
+    @Override
+    public File getDatasetFile() throws IOException {
+        throw new UnsupportedOperationException("Unimplemented method 'getDatasetFile'");
+    }
 }

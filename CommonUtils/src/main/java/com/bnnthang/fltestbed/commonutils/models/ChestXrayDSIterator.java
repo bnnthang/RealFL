@@ -11,16 +11,16 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class NewChestXrayDSIterator implements DataSetIterator {
+public class ChestXrayDSIterator implements DataSetIterator {
     private final IDatasetLoader _loader;
 
     private int currentIndex = 0;
 
     private final int _batchSize;
 
-    private Logger _logger = LoggerFactory.getLogger(NewChestXrayDSIterator.class.getName());
+    private Logger _logger = LoggerFactory.getLogger(ChestXrayDSIterator.class.getName());
 
-    public NewChestXrayDSIterator(IDatasetLoader loader, int batchSize) {
+    public ChestXrayDSIterator(IDatasetLoader loader, int batchSize) {
         _loader = loader;
         _batchSize = batchSize;
         _logger.info("init new chest xray dsiterator");

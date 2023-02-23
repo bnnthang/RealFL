@@ -6,8 +6,6 @@ import org.nd4j.common.primitives.Pair;
 import org.nd4j.linalg.api.ndarray.INDArray;
 import org.nd4j.linalg.dataset.DataSet;
 import org.nd4j.linalg.util.FeatureUtil;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -54,10 +52,8 @@ public class Cifar10DatasetLoader implements IDatasetLoader {
     protected IClientLocalRepository localRepository;
 
     /**
-     * Logger.
+     * Number of rows in each dataset.
      */
-    private static final Logger _logger = LoggerFactory.getLogger(Cifar10DatasetLoader.class);
-
     private long rowCount = -1;
 
     /**

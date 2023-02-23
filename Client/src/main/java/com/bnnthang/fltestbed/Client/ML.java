@@ -2,7 +2,7 @@ package com.bnnthang.fltestbed.Client;
 
 import com.bnnthang.fltestbed.commonutils.models.Cifar10DatasetLoader;
 import com.bnnthang.fltestbed.commonutils.models.MemoryListener;
-import com.bnnthang.fltestbed.commonutils.models.NewCifar10DSIterator;
+import com.bnnthang.fltestbed.commonutils.models.Cifar10DSIterator;
 import org.datavec.image.loader.CifarLoader;
 import org.deeplearning4j.nn.api.OptimizationAlgorithm;
 import org.deeplearning4j.nn.conf.MultiLayerConfiguration;
@@ -88,7 +88,7 @@ public class ML {
         // TODO: add a healthdataset ML model for the client's side
         Cifar10Repository repo = new Cifar10Repository(workDir + "/model.zip", workDir + "/dataset");
         Cifar10DatasetLoader loader = new Cifar10DatasetLoader(repo);
-        NewCifar10DSIterator newCifar = new NewCifar10DSIterator(loader, 23);
+        Cifar10DSIterator newCifar = new Cifar10DSIterator(loader, 23);
 
         WorkspaceConfiguration wc = WorkspaceConfiguration.builder()
                 .policyAllocation(AllocationPolicy.STRICT)
