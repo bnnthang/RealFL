@@ -37,7 +37,9 @@ public class App {
             ml(appArgs);
         } else if (appArgs.model) {
             // TODO: replace this with factory pattern (perhaps in commonutils)
-            if (appArgs.useHealthDataset) {
+            if (appArgs.test) {
+                ML.getBaseIrisModel(appArgs.workDir);
+            } else if (appArgs.useHealthDataset) {
                 ML.getBaseChestXrayModel(appArgs.workDir);
             } else {
                 ML.getBaseCifar10Model(appArgs.workDir);
@@ -121,6 +123,7 @@ public class App {
                 distributionRatiosByClient, distributionRatiosByLabels, useDropping, dropping);
 
         IServerLocalRepository localRepository = ServerLocalRepositoryFactory.getRepository(
+                args.test,
                 args.useHealthDataset,
                 args.workDir,
                 args.useConfig,

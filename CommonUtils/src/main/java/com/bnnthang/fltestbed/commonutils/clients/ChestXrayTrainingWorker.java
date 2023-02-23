@@ -11,7 +11,7 @@ import com.bnnthang.fltestbed.commonutils.models.ChestXrayDatasetLoader;
 import com.bnnthang.fltestbed.commonutils.models.IDatasetLoader;
 import com.bnnthang.fltestbed.commonutils.models.MemoryListener;
 import com.bnnthang.fltestbed.commonutils.models.ModelUpdate;
-import com.bnnthang.fltestbed.commonutils.models.NewChestXrayDSIterator;
+import com.bnnthang.fltestbed.commonutils.models.ChestXrayDSIterator;
 import com.bnnthang.fltestbed.commonutils.utils.TimeUtils;
 
 public class ChestXrayTrainingWorker extends Thread {
@@ -63,7 +63,7 @@ public class ChestXrayTrainingWorker extends Thread {
 
             // load dataset
             IDatasetLoader loader = new ChestXrayDatasetLoader(localRepository);
-            DataSetIterator iterator = new NewChestXrayDSIterator(loader, batchSize);
+            DataSetIterator iterator = new ChestXrayDSIterator(loader, batchSize);
 
             model.setListeners(new MemoryListener());
 

@@ -29,4 +29,7 @@ public class AppArgs {
 
     @Parameter(names = "--help", help = true)
     public Boolean help = false;
+
+    @Parameter(names = "--test", description = "Run the Iris dataset")
+    public Boolean test = false;
 }
