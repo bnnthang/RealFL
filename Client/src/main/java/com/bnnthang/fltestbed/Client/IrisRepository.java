@@ -1,7 +1,6 @@
 package com.bnnthang.fltestbed.Client;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -112,7 +111,7 @@ public class IrisRepository implements IClientLocalRepository {
 
     @Override
     public Boolean modelExists() {
-        return (new File(pathToModel)).exists();
+        return false;
     }
 
     @Override
