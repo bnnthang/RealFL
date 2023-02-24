@@ -1,6 +1,8 @@
 package com.bnnthang.fltestbed.commonutils.clients;
 
-public interface IClientNetworkStatManager {
+import java.io.Serializable;
+
+public interface IClientNetworkStatManager extends Serializable {
     void increaseBytes(Long x);
     void increaseCommTime(Double x);
     void newRound();

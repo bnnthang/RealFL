@@ -1,6 +1,8 @@
 package com.bnnthang.fltestbed.commonutils.clients;
 
-public interface IClientTrainingStatManager {
+import java.io.Serializable;
+
+public interface IClientTrainingStatManager extends Serializable {
     void newRound();
     void setTrainingTime(Double elapsedTime);
     Double getTrainingTime(Integer round);
