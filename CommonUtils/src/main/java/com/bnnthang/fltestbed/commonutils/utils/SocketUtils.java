@@ -3,12 +3,12 @@ package com.bnnthang.fltestbed.commonutils.utils;
 import com.bnnthang.fltestbed.commonutils.clients.IClientNetworkStatManager;
 import com.bnnthang.fltestbed.commonutils.models.TimedValue;
 
+import org.apache.commons.lang3.SerializationUtils;
 import org.nd4j.shade.guava.primitives.Ints;
 
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.ObjectOutputStream;
 import java.io.OutputStream;
+import java.io.Serializable;
 import java.net.Socket;
 import java.time.LocalDateTime;
 
@@ -200,19 +200,11 @@ public final class SocketUtils {
         return foo.getValue();
     }
 
-    public static void serializeAndSend(final Socket socket, Object obj) throws IOException {
+    public static void serializeAndSend(final Socket socket, Serializable obj) throws IOException {
         // serialize
-        ByteArrayOutputStream bos = new ByteArrayOutputStream();
-        ObjectOutputStream out = new ObjectOutputStream(bos);
-        out.writeObject(obj);
-        out.flush();
-        byte[] bytes = bos.toByteArray();
+        byte[] bytes = SerializationUtils.serialize(obj);
 
         // send
-        SocketUtils.sendBytes(socket, bytes);
-
-        // clean
-        bos.close();
-        out.close();
+        SocketUtils.sendBytesWrapper(socket, bytes);
     }
 }

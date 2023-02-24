@@ -10,7 +10,7 @@ public class AppArgs {
     public Integer numClients = 1;
     
     @Parameter(names = "--rounds", description = "Number of training rounds")
-    public Integer rounds = 1;
+    public Integer rounds = 3;
     
     @Parameter(names = "--workdir", description = "Working directory where the server saves the model and the training results")
     public String workDir = System.getProperty("user.dir");
