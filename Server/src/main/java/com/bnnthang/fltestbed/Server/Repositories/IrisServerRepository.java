@@ -100,8 +100,12 @@ public class IrisServerRepository implements IServerLocalRepository {
     }
 
     @Override
-    public List<byte[]> partitionAndSerializeDataset(int arg0, float arg1) {
-        return new ArrayList<>();
+    public List<byte[]> partitionAndSerializeDataset(int partitions, float ratio) {
+        List<byte[]> res = new ArrayList<>();
+        for (int i = 0; i < partitions; ++i) {
+            res.add(new byte[] {});
+        }
+        return res;
     }
 
     @Override
