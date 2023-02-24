@@ -111,7 +111,7 @@ public class IrisRepository implements IClientLocalRepository {
 
     @Override
     public Boolean modelExists() {
-        return false;
+        return (new File(pathToModel)).exists();
     }
 
     @Override
