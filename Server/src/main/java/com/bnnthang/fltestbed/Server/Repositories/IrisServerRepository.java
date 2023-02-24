@@ -31,7 +31,7 @@ public class IrisServerRepository implements IServerLocalRepository {
     /**
      * Current model name.
      */
-    private String currentModelName;
+    private String currentModelName = "base_model.zip";
 
     public IrisServerRepository(String workDir) {
         this.workDir = workDir;
