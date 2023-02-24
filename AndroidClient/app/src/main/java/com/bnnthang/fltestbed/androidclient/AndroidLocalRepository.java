@@ -60,7 +60,6 @@ public class AndroidLocalRepository implements IClientLocalRepository {
     @Override
     public TimedValue<Long> updateModel(Socket socket) throws IOException {
         TimedValue<byte[]> foo = SocketUtils.readBytesWrapper(socket);
-        Long configurationEnd = System.currentTimeMillis();
 
         System.err.println("recv weights length = " + foo.getValue().length);
 
@@ -100,6 +99,11 @@ public class AndroidLocalRepository implements IClientLocalRepository {
     @Override
     public InputStream getDatasetInputStream() throws IOException {
         return new FileInputStream(new File(localFileDir, DATASET_FILENAME));
+    }
+
+    @Override
+    public File getDatasetFile() throws IOException {
+        throw new UnsupportedOperationException("not implemented");
     }
 
     @Override

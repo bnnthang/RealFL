@@ -2,10 +2,10 @@ package com.bnnthang.fltestbed.androidclient;
 
 import com.bnnthang.fltestbed.commonutils.clients.IClientLocalRepository;
 import com.bnnthang.fltestbed.commonutils.clients.IClientTrainingStatManager;
+import com.bnnthang.fltestbed.commonutils.models.ChestXrayDSIterator;
 import com.bnnthang.fltestbed.commonutils.models.IDatasetLoader;
 import com.bnnthang.fltestbed.commonutils.models.MemoryListener;
 import com.bnnthang.fltestbed.commonutils.models.ModelUpdate;
-import com.bnnthang.fltestbed.commonutils.models.NewChestXrayDSIterator;
 import com.bnnthang.fltestbed.commonutils.utils.TimeUtils;
 
 import org.deeplearning4j.nn.multilayer.MultiLayerNetwork;
@@ -59,7 +59,7 @@ public class AndroidChestXrayTrainingWorker implements Runnable {
             MultiLayerNetwork model = ModelSerializer.restoreMultiLayerNetwork(_localRepository.getModelFile(), true);
 
             IDatasetLoader loader = new AndroidChestXrayLoader(_localRepository);
-            DataSetIterator chestXray = new NewChestXrayDSIterator(loader, _batchSize);
+            DataSetIterator chestXray = new ChestXrayDSIterator(loader, _batchSize);
             model.setListeners(new MemoryListener());
 
             LocalDateTime startTime = LocalDateTime.now();

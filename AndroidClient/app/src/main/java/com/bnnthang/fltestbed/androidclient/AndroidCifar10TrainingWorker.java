@@ -5,7 +5,7 @@ import com.bnnthang.fltestbed.commonutils.clients.IClientTrainingStatManager;
 import com.bnnthang.fltestbed.commonutils.models.IDatasetLoader;
 import com.bnnthang.fltestbed.commonutils.models.MemoryListener;
 import com.bnnthang.fltestbed.commonutils.models.ModelUpdate;
-import com.bnnthang.fltestbed.commonutils.models.NewCifar10DSIterator;
+import com.bnnthang.fltestbed.commonutils.models.Cifar10DSIterator;
 import com.bnnthang.fltestbed.commonutils.utils.TimeUtils;
 
 import org.deeplearning4j.nn.multilayer.MultiLayerNetwork;
@@ -59,7 +59,7 @@ public class AndroidCifar10TrainingWorker implements Runnable {
             MultiLayerNetwork model = ModelSerializer.restoreMultiLayerNetwork(_localRepository.getModelFile(), true);
 
             IDatasetLoader loader = new AndroidCifar10Loader(_localRepository);
-            DataSetIterator cifar = new NewCifar10DSIterator(loader, _batchSize);
+            DataSetIterator cifar = new Cifar10DSIterator(loader, _batchSize);
             model.setListeners(new MemoryListener());
 
             LocalDateTime startTime = LocalDateTime.now();

@@ -56,6 +56,11 @@ public class BaseClientOperations implements IClientOperations {
      */
     protected IClientTrainingStatManager trainingStat;
 
+    /**
+     * Model Push Flag.
+     */
+    private Boolean firstModelPush = true;
+
     public BaseClientOperations(IClientLocalRepository _localRepository, Integer _batchSize) throws IOException {
         localRepository = _localRepository;
         modelUpdate = new ModelUpdate();
@@ -86,7 +91,7 @@ public class BaseClientOperations implements IClientOperations {
         // a pair of (bytes read, elapsed time)
         TimedValue<Long> foo;
 
-        if (hasLocalModel()) {
+        if (hasLocalModel() && !firstModelPush) {
             LOGGER.debug("start updating model");
             foo = localRepository.updateModel(socket);
             LOGGER.debug("end updating model");
@@ -94,6 +99,7 @@ public class BaseClientOperations implements IClientOperations {
             LOGGER.debug("start downloading model");
             foo = localRepository.downloadModel(socket);
             LOGGER.debug("end downloading model");
+            firstModelPush = false;
         }
 
         // update download stat
