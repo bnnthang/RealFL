@@ -42,14 +42,11 @@ public class BaseClientHandler implements IClientHandler {
      */
     protected File _logFolder;
 
-    protected long configurationStartTime;
-
     public BaseClientHandler(int id, Socket socket, File logFolder) throws IOException {
         _id = id;
         _socket = socket;
         _logFolder = logFolder;
         localModel = false;
-        configurationStartTime = -1L;
     }
 
     @Override
@@ -78,11 +75,10 @@ public class BaseClientHandler implements IClientHandler {
 
     @Override
     public void pushModel(byte[] bytes) throws IOException {
-        LOGGER.debug(localModel ? "pushing weights" : "pushing");
+        LOGGER.debug(localModel ? "pushing weights" : "pushing model");
 
         localModel = true;
 
-        configurationStartTime = System.currentTimeMillis();
         SocketUtils.sendInteger(_socket, ClientCommandEnum.MODELPUSH.ordinal());
         SocketUtils.sendBytesWrapper(_socket, bytes);
 

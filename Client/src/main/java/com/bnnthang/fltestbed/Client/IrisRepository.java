@@ -50,8 +50,10 @@ public class IrisRepository implements IClientLocalRepository {
 
     @Override
     public Long downloadDataset(Socket socket) throws IOException {
-        LOG.info("downloaded dataset");
-        return 123L;
+        Integer check = SocketUtils.readInteger(socket).getValue();
+        assert check.equals(0);
+        LOG.info("downloaded dataset, got 0 byte");
+        return 0L;
     }
 
     @Override
