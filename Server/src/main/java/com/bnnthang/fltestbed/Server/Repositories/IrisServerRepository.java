@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
@@ -100,7 +101,7 @@ public class IrisServerRepository implements IServerLocalRepository {
 
     @Override
     public List<byte[]> partitionAndSerializeDataset(int arg0, float arg1) {
-        throw new UnsupportedOperationException("Unimplemented method 'partitionAndSerializeDataset'");
+        return new ArrayList<>();
     }
 
     @Override
