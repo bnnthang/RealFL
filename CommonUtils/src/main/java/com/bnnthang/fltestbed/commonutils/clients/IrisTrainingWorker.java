@@ -35,8 +35,10 @@ public class IrisTrainingWorker extends Thread {
      */
     private IClientTrainingStatManager trainingStatManager;
 
-    public IrisTrainingWorker(IClientLocalRepository irisRepository) {
+    public IrisTrainingWorker(IClientLocalRepository irisRepository, ModelUpdate modelUpdate, IClientTrainingStatManager trainingStatManager) {
         this.irisRepository = irisRepository;
+        this.modelUpdate = modelUpdate;
+        this.trainingStatManager = trainingStatManager;
     }
 
     @Override

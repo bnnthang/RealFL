@@ -112,7 +112,9 @@ public class BaseClientOperations implements IClientOperations {
     @Override
     public void handleTrain() throws IOException {
         // TODO: change to factory pattern
-        if (localRepository.getDatasetName().equals("ChestXray")){
+        if (localRepository.getDatasetName().equals("Iris")) {
+            trainingWorker = new IrisTrainingWorker(localRepository, modelUpdate, trainingStat);
+        } else if (localRepository.getDatasetName().equals("ChestXray")){
             trainingWorker = new ChestXrayTrainingWorker(localRepository, modelUpdate, batchSize, EPOCHS, trainingStat);
         } else {
             trainingWorker = new Cifar10TrainingWorker(localRepository, modelUpdate, batchSize, EPOCHS, trainingStat);
