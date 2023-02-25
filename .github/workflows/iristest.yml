@@ -1,4 +1,4 @@
-name: Iris Test CICD
+name: Iris Test CI
 
 on:
   push:
@@ -62,4 +62,4 @@ jobs:
         wait < <(jobs -p)
         cat ServerOutput.txt
         cat ClientOutput.txt
-        test -f fail
+        test -f fail && echo "YAY!"
