@@ -10,7 +10,7 @@ public class AppArgs {
     public Integer numClients = 1;
     
     @Parameter(names = "--rounds", description = "Number of training rounds")
-    public Integer rounds = 1;
+    public Integer rounds = 3;
     
     @Parameter(names = "--workdir", description = "Working directory where the server saves the model and the training results")
     public String workDir = System.getProperty("user.dir");
@@ -27,12 +27,18 @@ public class AppArgs {
     @Parameter(names = "--healthdataset", description = "Set to true if the health dataset is to be used, otherwise cifar-10 dataset will be used")
     public Boolean useHealthDataset = false;
 
-    @Parameter(names = "--fl")
+    @Parameter(names = "--fl", description = "Run FL training")
     public Boolean fl = false;
 
-    @Parameter(names = "--ml")
+    @Parameter(names = "--ml", description = "Run ML training")
     public Boolean ml = false;
 
-    @Parameter(names = "--model")
+    @Parameter(names = "--model", description = "Generate base model")
     public Boolean model = false;
+
+    @Parameter(names = "--help", help = true)
+    public Boolean help = false;
+
+    @Parameter(names = "--test", description = "Run test with Iris dataset")
+    public Boolean test = false;
 }

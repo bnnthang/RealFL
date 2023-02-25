@@ -26,15 +26,20 @@ public class App {
 
     public static void main(String[] args) throws Exception {
         AppArgs appArgs = new AppArgs();
-        JCommander.newBuilder().addObject(appArgs).build().parse(args);
+        JCommander jcmd = JCommander.newBuilder().addObject(appArgs).build();
+        jcmd.parse(args);
 
-        if (appArgs.fl) {
+        if (appArgs.help) {
+            jcmd.usage();
+        } else if (appArgs.fl) {
             fl(appArgs);
         } else if (appArgs.ml) {
             ml(appArgs);
         } else if (appArgs.model) {
             // TODO: replace this with factory pattern (perhaps in commonutils)
-            if (appArgs.useHealthDataset) {
+            if (appArgs.test) {
+                ML.getBaseIrisModel(appArgs.workDir);
+            } else if (appArgs.useHealthDataset) {
                 ML.getBaseChestXrayModel(appArgs.workDir);
             } else {
                 ML.getBaseCifar10Model(appArgs.workDir);
@@ -42,11 +47,6 @@ public class App {
         } else {
             _logger.info("no training model specified.");
         }
-    }
-
-    private static void help() {
-        // TODO: print arguments documentation
-        System.out.println("help");
     }
 
     private static void ml(AppArgs args) throws IOException {
@@ -123,6 +123,7 @@ public class App {
                 distributionRatiosByClient, distributionRatiosByLabels, useDropping, dropping);
 
         IServerLocalRepository localRepository = ServerLocalRepositoryFactory.getRepository(
+                args.test,
                 args.useHealthDataset,
                 args.workDir,
                 args.useConfig,

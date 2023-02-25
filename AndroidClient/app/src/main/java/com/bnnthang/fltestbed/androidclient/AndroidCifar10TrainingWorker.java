@@ -1,10 +1,11 @@
 package com.bnnthang.fltestbed.androidclient;
 
 import com.bnnthang.fltestbed.commonutils.clients.IClientLocalRepository;
+import com.bnnthang.fltestbed.commonutils.clients.IClientTrainingStatManager;
 import com.bnnthang.fltestbed.commonutils.models.IDatasetLoader;
 import com.bnnthang.fltestbed.commonutils.models.MemoryListener;
-import com.bnnthang.fltestbed.commonutils.models.NewCifar10DSIterator;
-import com.bnnthang.fltestbed.commonutils.models.TrainingReport;
+import com.bnnthang.fltestbed.commonutils.models.ModelUpdate;
+import com.bnnthang.fltestbed.commonutils.models.Cifar10DSIterator;
 import com.bnnthang.fltestbed.commonutils.utils.TimeUtils;
 
 import org.deeplearning4j.nn.multilayer.MultiLayerNetwork;
@@ -31,18 +32,25 @@ public class AndroidCifar10TrainingWorker implements Runnable {
     private int _epochs;
 
     /**
-     * Training report.
+     * Model update per round here.
      */
-    private TrainingReport _report;
+    private ModelUpdate _modelUpdate;
+
+    /**
+     * Training stat manager here.
+     */
+    private IClientTrainingStatManager _trainingStatManager;
 
     public AndroidCifar10TrainingWorker(IClientLocalRepository localRepository,
-                                        TrainingReport report,
+                                        ModelUpdate modelUpdate,
                                         int batchSize,
-                                        int epochs) {
+                                        int epochs,
+                                        IClientTrainingStatManager trainingStatManager) {
         _localRepository = localRepository;
-        _report = report;
+        _modelUpdate = modelUpdate;
         _batchSize = batchSize;
         _epochs = epochs;
+        _trainingStatManager = trainingStatManager;
     }
 
     @Override
@@ -51,15 +59,15 @@ public class AndroidCifar10TrainingWorker implements Runnable {
             MultiLayerNetwork model = ModelSerializer.restoreMultiLayerNetwork(_localRepository.getModelFile(), true);
 
             IDatasetLoader loader = new AndroidCifar10Loader(_localRepository);
-            DataSetIterator cifar = new NewCifar10DSIterator(loader, _batchSize);
+            DataSetIterator cifar = new Cifar10DSIterator(loader, _batchSize);
             model.setListeners(new MemoryListener());
 
             LocalDateTime startTime = LocalDateTime.now();
             model.fit(cifar, _epochs);
             LocalDateTime endTime = LocalDateTime.now();
 
-            _report.getMetrics().setTrainingTime(TimeUtils.millisecondsBetween(startTime, endTime));
-            _report.getModelUpdate().setWeight(model.params().dup());
+            _modelUpdate.setWeight(model.params().dup());
+            _trainingStatManager.setTrainingTime(TimeUtils.millisecondsBetween(startTime, endTime));
 
             model.close();
         } catch (IOException e) {

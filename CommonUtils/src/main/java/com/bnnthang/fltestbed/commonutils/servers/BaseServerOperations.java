@@ -2,7 +2,6 @@ package com.bnnthang.fltestbed.commonutils.servers;
 
 import com.bnnthang.fltestbed.commonutils.models.ModelUpdate;
 import com.bnnthang.fltestbed.commonutils.models.ServerParameters;
-import com.bnnthang.fltestbed.commonutils.models.TrainingReport;
 import com.opencsv.CSVWriter;
 import lombok.Getter;
 import org.deeplearning4j.nn.multilayer.MultiLayerNetwork;
@@ -63,12 +62,6 @@ public class BaseServerOperations implements IServerOperations {
         // TODO: not to do this in memory
         List<byte[]> partitions = localRepository.partitionAndSerializeDataset(acceptedClients.size(), ratio);
 
-//        File f = new File("C:\\Users\\buinn\\DoNotTouch\\crap\\photolabeller\\crap\\debug_dataset.txt");
-//        f.createNewFile();
-//        FileOutputStream os = new FileOutputStream(f);
-//        os.write(partitions.get(0));
-//        os.close();
-
         _logger.debug("pushing to client");
 
         // TODO: parallelize this
@@ -82,11 +75,14 @@ public class BaseServerOperations implements IServerOperations {
 
     @Override
     public void pushModelToClients(List<IClientHandler> clients) throws IOException {
-        // TODO: not to load model to memory
-        byte[] modelBytes = localRepository.loadAndSerializeLatestModel();
-        byte[] weightBytes = localRepository.loadAndSerializeLatestModelWeights();
         for (IClientHandler client : clients) {
-            client.pushModel(client.hasLocalModel() ? weightBytes : modelBytes);
+            if (client.hasLocalModel()) {
+                byte[] weightBytes = localRepository.loadAndSerializeLatestModelWeights();
+                client.pushModel(weightBytes);
+            } else {
+                byte[] modelBytes = localRepository.loadAndSerializeLatestModel();
+                client.pushModel(modelBytes);
+            }
         }
 
         _logger.debug("pushed model to all clients");
@@ -126,7 +122,7 @@ public class BaseServerOperations implements IServerOperations {
     }
 
     @Override
-    public void evaluateCurrentModel(List<TrainingReport> trainingReports) throws IOException {
+    public void evaluateCurrentModel(List<ModelUpdate> trainingReports) throws IOException {
         Evaluation evaluation = localRepository.evaluateCurrentModel();
         _logWriter.writeNext(new String[] {
                 String.valueOf(evaluation.accuracy()),
@@ -140,6 +136,8 @@ public class BaseServerOperations implements IServerOperations {
     @Override
     public void done() throws Exception {
         _logWriter.close();
+
+        // get final report from each client
         for (IClientHandler clientHandler : acceptedClients) {
             clientHandler.done();
         }

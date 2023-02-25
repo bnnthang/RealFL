@@ -13,7 +13,10 @@ import java.net.Socket;
  * Simple implementation of a Federated Learning client.
  */
 public class BaseClient extends Thread {
-    private static final Logger _logger = LoggerFactory.getLogger(BaseClient.class);
+    /**
+     * Logger.
+     */
+    private static final Logger LOGGER = LoggerFactory.getLogger(BaseClient.class);
 
     /**
      * Delay interval (in milliseconds).
@@ -38,11 +41,7 @@ public class BaseClient extends Thread {
      * @param clientOperations implementation of supported operations
      * @throws IOException if errors happened when initiating the socket
      */
-    public BaseClient(final String host,
-                      final Integer port,
-                      final Integer _delayInterval,
-                      final IClientOperations clientOperations)
-            throws IOException {
+    public BaseClient(final String host, final Integer port, final Integer _delayInterval, final IClientOperations clientOperations) throws IOException {
         socket = new Socket(host, port);
         operations = clientOperations;
         delayInterval = _delayInterval;
@@ -53,7 +52,7 @@ public class BaseClient extends Thread {
         try {
             serve();
         } catch (Exception e) {
-            _logger.error(e.getMessage());
+            LOGGER.error(e.getMessage());
             operations.terminate();
             this.interrupt();
         }
@@ -76,7 +75,7 @@ public class BaseClient extends Thread {
 
             if (bytesRead < 0) {
                 operations.terminate();
-                _logger.error("Negative number of bytes read.");
+                LOGGER.error("Negative number of bytes read.");
                 break;
             } else if (bytesRead == 0) {
                 sleep(delayInterval);
@@ -136,7 +135,7 @@ public class BaseClient extends Thread {
      * @throws UnsupportedOperationException if reads unexpected bytes
      */
     private Boolean acceptedOrRejected() throws IOException, UnsupportedOperationException {
-        switch (SocketUtils.readInteger(socket)) {
+        switch (SocketUtils.readInteger(socket).getValue()) {
             case 0:
                 operations.handleAccepted(socket);
                 return true;
