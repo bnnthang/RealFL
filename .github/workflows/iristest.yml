@@ -57,6 +57,7 @@ jobs:
     - name: Run Iris Test
       run: |-
         nohup java -jar Server/target/Server-1.2-SNAPSHOT.jar --fl --test --numClients 1 --workdir TempServer --rounds 3 > ServerOutput.txt || tee fail &
+        sleep 10s
         nohup java -jar Client/target/Client-1.2-SNAPSHOT.jar --fl --test --workdir TempClient > ClientOutput.txt || tee fail &
         wait < <(jobs -p)
         cat ServerOutput.txt
