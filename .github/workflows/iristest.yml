@@ -40,17 +40,16 @@ jobs:
     
     - name: Build Server
       run: |-
-        cd ../Server
+        cd Server
         mvn -B clean package
     
     - name: Build Client
       run: |-
-        cd ../Client
+        cd Client
         mvn -B clean package
     
     - name: Setup Iris Test
       run:
-        cd ..
         mkdir TempServer
         java -jar Server/target/Server-1.2-SNAPSHOT.jar --test --model --workdir TempServer
         mkdir TempClient
@@ -58,7 +57,7 @@ jobs:
     - name: Run Iris Test
       run: |-
         nohup java -jar Server/target/Server-1.2-SNAPSHOT.jar --fl --test --numClients 1 --workdir TempServer --rounds 3 > ServerOutput.txt || tee fail &
-        nohup java -jar target/Client-1.2-SNAPSHOT.jar --fl --test --workdir TempClient > ClientOutput.txt || tee fail &
+        nohup java -jar Client/target/Client-1.2-SNAPSHOT.jar --fl --test --workdir TempClient > ClientOutput.txt || tee fail &
         wait < <(jobs -p)
         cat ServerOutput.txt
         cat ClientOutput.txt
