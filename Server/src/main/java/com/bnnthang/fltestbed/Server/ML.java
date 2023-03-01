@@ -107,9 +107,10 @@ public class ML {
 
         // train model and eval model
         MultiLayerNetwork model = getModelCifar10();
-        model.setListeners(new ScoreIterationListener(50),
-                new EvaluativeListener(cifarEval, 1, InvocationType.EPOCH_END));
+        FileLogEvaluationListener fileLogEvaluationListener = new FileLogEvaluationListener(cifarEval, new File(workdir + "/logs/eval-log.csv"));
+        model.setListeners(new ScoreIterationListener(50), fileLogEvaluationListener);
         model.fit(cifar, rounds);
+        fileLogEvaluationListener.close();
 
         // Save model
         ModelSerializer.writeModel(model, new File(workdir, "model-"
@@ -207,10 +208,10 @@ public class ML {
                 new ServerChestXrayLoader(new File[] { new File(workdir, "test_batch.bin") }, 1.0), 16);
 
         MultiLayerNetwork model = getModelPneumonia();
-        model.setListeners(
-                new ScoreIterationListener(50),
-                new EvaluativeListener(iteratorEval, 1, InvocationType.EPOCH_END));
+        FileLogEvaluationListener fileLogEvaluationListener = new FileLogEvaluationListener(iteratorEval, new File(workdir + "/logs/eval-log.csv"));
+        model.setListeners(new ScoreIterationListener(50), fileLogEvaluationListener);
         model.fit(iteratorTrain, rounds);
+        fileLogEvaluationListener.close();
 
         ModelSerializer.writeModel(model, new File(workdir, "cmodel-"
                 + (new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss").format(Calendar.getInstance().getTime()))
